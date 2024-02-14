@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parkergram</title>
+    <style>
+        /* CSS styles go here */
+        .center {
+            text-align: center;
+        }
+        header {
+            background-color: #e6c521;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="center">
+            <img src="parkergram.png" alt="Parkergram Logo">
+            <p>Welcome to Parkergram</p>
+        </div>
+    </header>
+
+    <main>
+        <iframe src="https://thunkable.site/w/cZ2DVp_lhD7PwjhQ18MrX" title="Parkergram App" height = 750 width = 500></iframe>
+        <div id="users">
+            <!-- Display profile of user 1 here -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Pronouns</th>
+                        <th>Birthday</th>
+                        <th>Image</th>
+                        <th>Last Weekday They Visited</th>
+                    </tr>
+                </thead>
+                <tbody id="userData">
+                    <!-- User data will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKwtP2HTxkzPYSqdk0Nbx2nUMoTYqqJr8",
+            authDomain: "profileapp-f79f1.firebaseapp.com",
+            databaseURL: "https://profileapp-f79f1-default-rtdb.firebaseio.com",
+            projectId: "profileapp-f79f1",
+            storageBucket: "profileapp-f79f1.appspot.com",
+            messagingSenderId: "234640770138",
+            appId: "1:234640770138:web:d6953c60c99490c4ac8463",
+            measurementId: "G-K7SDXDFJ8V"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        import {getDatabase, get, update, ref, child} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Get a reference to the database
+        var database = getDatabase();
+        var dbref = ref(database);
+        var userData = document.getElementById('userData');
+
+        // Get the data for user 1
+        get(child(dbref, 'AtzPuCmV5OdoqJE15ZHXHvOoxry1')).then((snapshot) => {
+            if (snapshot.exists()) {
+                console.log(snapshot.val());
+                var user = snapshot.val();
+                var userRow = document.createElement('tr');
+                userRow.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.pronouns}</td>
+                    <td>${user.birthday}</td>
+                    <td><img src="${user.image}" alt="User Image" width=100></td>
+                    <td>${user.lastVisited}</td>
+                `;
+                userData.appendChild(userRow);
+            } else {
+                console.log("No data available");
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+
+        // Get the data for user 2
+        get(child(dbref, 'g00vITlEbodedNHrgAdYW3EQQLo2')).then((snapshot) => {
+            if (snapshot.exists()) {
+                console.log(snapshot.val());
+                var user = snapshot.val();
+                var userRow = document.createElement('tr');
+                userRow.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.pronouns}</td>
+                    <td>${user.birthday}</td>
+                    <td><img src="${user.image}" alt="User Image" width=100></td>
+                    <td>${user.lastVisited}</td>
+                `;
+                userData.appendChild(userRow);
+            } else {
+                console.log("No data available");
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    </script>
+</body>
+</html>
